@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BannerAd renders a container View wrapping the SDK BannerAd 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "width": "100%",
+      },
+      undefined,
+    ]
+  }
+/>
+`;
