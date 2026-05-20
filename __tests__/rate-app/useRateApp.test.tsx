@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
-import { Text } from 'react-native';
+import { Linking, Platform, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRateApp } from '../../src/rate-app';
 import type { UseRateAppConfig } from '../../src/rate-app';
@@ -39,16 +39,21 @@ describe('useRateApp', () => {
   let getItemSpy: jest.SpyInstance;
   let setItemSpy: jest.SpyInstance;
 
+  let openURLSpy: jest.SpyInstance;
+
   beforeEach(() => {
     jest.clearAllMocks();
     getItemSpy = jest.spyOn(AsyncStorage, 'getItem').mockResolvedValue(null);
     setItemSpy = jest.spyOn(AsyncStorage, 'setItem').mockResolvedValue(undefined);
+    openURLSpy = jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
     getInAppReviewMock().isAvailable.mockReturnValue(true);
     getInAppReviewMock().RequestInAppReview.mockResolvedValue(true);
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
+    // Restore platform to default test value after any per-test override.
+    (Platform as unknown as { OS: string }).OS = 'ios';
   });
 
   it('initialises with isModalVisible=false', async () => {
@@ -126,7 +131,7 @@ describe('useRateApp', () => {
     ).toBe('false');
   });
 
-  it('does not show modal when in-app review is unavailable', async () => {
+  it('shows modal when in-app review is unavailable (always shows custom popup)', async () => {
     getInAppReviewMock().isAvailable.mockReturnValue(false);
 
     let tree!: ReactTestRenderer.ReactTestRenderer;
@@ -136,6 +141,43 @@ describe('useRateApp', () => {
     await ReactTestRenderer.act(async () => {
       tree.root.findByProps({ testID: 'openPrompt' }).props.onPress();
     });
+    expect(
+      tree.root.findByProps({ testID: 'isVisible' }).props.children,
+    ).toBe('true');
+  });
+
+  it('opens Play Store URL when cooldown is active on Android', async () => {
+    (Platform as unknown as { OS: string }).OS = 'android';
+    const threeDaysAgo = String(Date.now() - 3 * 24 * 60 * 60 * 1000);
+    getItemSpy.mockResolvedValue(threeDaysAgo);
+
+    let tree!: ReactTestRenderer.ReactTestRenderer;
+    await ReactTestRenderer.act(async () => {
+      tree = ReactTestRenderer.create(
+        <HookHarness config={{ playStoreUrl: 'https://play.google.com/store/apps/details?id=com.example' }} />,
+      );
+    });
+    await ReactTestRenderer.act(async () => {
+      tree.root.findByProps({ testID: 'openPrompt' }).props.onPress();
+    });
+    expect(openURLSpy).toHaveBeenCalledWith('https://play.google.com/store/apps/details?id=com.example');
+    expect(
+      tree.root.findByProps({ testID: 'isVisible' }).props.children,
+    ).toBe('false');
+  });
+
+  it('does nothing when cooldown is active and no store URL is configured', async () => {
+    const threeDaysAgo = String(Date.now() - 3 * 24 * 60 * 60 * 1000);
+    getItemSpy.mockResolvedValue(threeDaysAgo);
+
+    let tree!: ReactTestRenderer.ReactTestRenderer;
+    await ReactTestRenderer.act(async () => {
+      tree = ReactTestRenderer.create(<HookHarness />);
+    });
+    await ReactTestRenderer.act(async () => {
+      tree.root.findByProps({ testID: 'openPrompt' }).props.onPress();
+    });
+    expect(openURLSpy).not.toHaveBeenCalled();
     expect(
       tree.root.findByProps({ testID: 'isVisible' }).props.children,
     ).toBe('false');

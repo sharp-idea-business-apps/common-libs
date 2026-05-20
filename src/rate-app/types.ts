@@ -1,14 +1,19 @@
 export interface UseRateAppConfig {
   /** Number of days before showing the rate prompt again. Defaults to 7. */
   cooldownDays?: number;
+  /** Play Store URL to open directly when the cooldown period is still active. */
+  playStoreUrl?: string;
+  /** App Store URL to open directly when the cooldown period is still active. */
+  appStoreUrl?: string;
 }
 
 export interface UseRateAppResult {
   /** Whether the custom pre-prompt modal is currently visible. */
   isModalVisible: boolean;
   /**
-   * Opens the rate prompt if the in-app review is available and the cooldown
-   * period has elapsed. No-op otherwise.
+   * Shows the custom pre-prompt modal when the cooldown has elapsed.
+   * When the cooldown is still active and a store URL is configured,
+   * opens the appropriate app store directly.
    */
   openRatePrompt: () => Promise<void>;
   /** Triggers the native in-app review, records the cooldown, hides the modal. */

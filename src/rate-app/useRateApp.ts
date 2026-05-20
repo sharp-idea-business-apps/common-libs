@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { Linking, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RateAppAdapter } from './RateAppAdapter';
 import type { UseRateAppConfig, UseRateAppResult } from './types';
@@ -21,6 +22,8 @@ function msFromDays(days: number): number {
  */
 export function useRateApp({
   cooldownDays = 7,
+  playStoreUrl,
+  appStoreUrl,
 }: UseRateAppConfig = {}): UseRateAppResult {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -44,13 +47,22 @@ export function useRateApp({
 
   const openRatePrompt = useCallback(async (): Promise<void> => {
     if (!RateAppAdapter.isAvailable()) {
+      const storeUrl = Platform.OS === 'ios' ? appStoreUrl : playStoreUrl;
+      if (storeUrl) {
+        await Linking.openURL(storeUrl);
+      }
       return;
     }
     const expired = await isCooldownExpired();
     if (expired) {
       setIsModalVisible(true);
+    } else {
+      const storeUrl = Platform.OS === 'ios' ? appStoreUrl : playStoreUrl;
+      if (storeUrl) {
+        await Linking.openURL(storeUrl);
+      }
     }
-  }, [isCooldownExpired]);
+  }, [isCooldownExpired, appStoreUrl, playStoreUrl]);
 
   const handleRateNow = useCallback(async (): Promise<void> => {
     setIsModalVisible(false);
