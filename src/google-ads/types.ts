@@ -66,3 +66,32 @@ export interface InterstitialAdProps {
   /** Optional children rendered alongside the headless ad controller. */
   children?: React.ReactNode;
 }
+
+export interface AppOpenAdConfig {
+  /** Google Ad Unit ID. Use TestIds.APP_OPEN for development. */
+  adUnitId: string;
+  /**
+   * When true, the ad begins loading immediately on hook mount.
+   * Defaults to false.
+   */
+  loadOnMount?: boolean;
+  /** Called when the App Open ad has been loaded and is ready to show. */
+  onAdLoaded?: () => void;
+  /** Called when the App Open ad fails to load. */
+  onAdFailedToLoad?: (error: Error) => void;
+  /** Called when the user dismisses the App Open ad. */
+  onAdClosed?: () => void;
+}
+
+export interface AppOpenAdState {
+  /** True when the ad is loaded and ready to display. */
+  isLoaded: boolean;
+  /** True while the ad is currently being fetched. */
+  isLoading: boolean;
+  /** Populated when the last load attempt failed; null otherwise. */
+  error: Error | null;
+  /**
+   * Displays the App Open ad. No-op if the ad is not yet loaded.
+   */
+  showAd: () => void;
+}

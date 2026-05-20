@@ -20,9 +20,24 @@ const mockAdInstance = {
   addAdEventListener: mockAddAdEventListener,
 };
 
+// Separate mock instance for AppOpenAd so tests can target each ad type independently.
+const mockAppOpenLoad = jest.fn();
+const mockAppOpenShow = jest.fn();
+const mockAppOpenAddAdEventListener = jest.fn().mockReturnValue(jest.fn());
+
+const mockAppOpenAdInstance = {
+  load: mockAppOpenLoad,
+  show: mockAppOpenShow,
+  addAdEventListener: mockAppOpenAddAdEventListener,
+};
+
 module.exports = {
   InterstitialAd: {
     createForAdRequest: jest.fn(() => mockAdInstance),
+  },
+
+  AppOpenAd: {
+    createForAdRequest: jest.fn(() => mockAppOpenAdInstance),
   },
 
   AdEventType: {
@@ -49,5 +64,6 @@ module.exports = {
   TestIds: {
     BANNER: 'ca-app-pub-3940256099942544/6300978111',
     INTERSTITIAL: 'ca-app-pub-3940256099942544/1033173712',
+    APP_OPEN: 'ca-app-pub-3940256099942544/9257395921',
   },
 };
