@@ -18,7 +18,10 @@ import type { InterstitialAdProps, InterstitialAdRef } from './types';
  * </InterstitialAd>
  * ```
  */
-export const InterstitialAd = forwardRef<InterstitialAdRef, InterstitialAdProps>(
+export const InterstitialAd = forwardRef<
+  InterstitialAdRef,
+  InterstitialAdProps
+>(
   (
     {
       adUnitId,

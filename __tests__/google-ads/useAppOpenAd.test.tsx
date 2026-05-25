@@ -61,21 +61,23 @@ describe('useAppOpenAd', () => {
       );
     });
 
-    expect(
-      tree.root.findByProps({ testID: 'isLoaded' }).props.children,
-    ).toBe('false');
-    expect(
-      tree.root.findByProps({ testID: 'isLoading' }).props.children,
-    ).toBe('false');
-    expect(
-      tree.root.findByProps({ testID: 'hasError' }).props.children,
-    ).toBe('no');
+    expect(tree.root.findByProps({ testID: 'isLoaded' }).props.children).toBe(
+      'false',
+    );
+    expect(tree.root.findByProps({ testID: 'isLoading' }).props.children).toBe(
+      'false',
+    );
+    expect(tree.root.findByProps({ testID: 'hasError' }).props.children).toBe(
+      'no',
+    );
   });
 
   it('calls ad.load() immediately when loadOnMount is true', async () => {
     await ReactTestRenderer.act(async () => {
       ReactTestRenderer.create(
-        <HookHarness config={{ adUnitId: 'test-unit-id', loadOnMount: true }} />,
+        <HookHarness
+          config={{ adUnitId: 'test-unit-id', loadOnMount: true }}
+        />,
       );
     });
 
@@ -86,7 +88,9 @@ describe('useAppOpenAd', () => {
   it('does not call ad.load() when loadOnMount is false', async () => {
     await ReactTestRenderer.act(async () => {
       ReactTestRenderer.create(
-        <HookHarness config={{ adUnitId: 'test-unit-id', loadOnMount: false }} />,
+        <HookHarness
+          config={{ adUnitId: 'test-unit-id', loadOnMount: false }}
+        />,
       );
     });
 
@@ -107,12 +111,12 @@ describe('useAppOpenAd', () => {
       triggerAdEvent(ad, 'loaded');
     });
 
-    expect(
-      tree.root.findByProps({ testID: 'isLoaded' }).props.children,
-    ).toBe('true');
-    expect(
-      tree.root.findByProps({ testID: 'isLoading' }).props.children,
-    ).toBe('false');
+    expect(tree.root.findByProps({ testID: 'isLoaded' }).props.children).toBe(
+      'true',
+    );
+    expect(tree.root.findByProps({ testID: 'isLoading' }).props.children).toBe(
+      'false',
+    );
   });
 
   it('calls onAdLoaded callback when LOADED event fires', async () => {
@@ -146,9 +150,9 @@ describe('useAppOpenAd', () => {
       triggerAdEvent(ad, 'error', fakeError);
     });
 
-    expect(
-      tree.root.findByProps({ testID: 'hasError' }).props.children,
-    ).toBe('yes');
+    expect(tree.root.findByProps({ testID: 'hasError' }).props.children).toBe(
+      'yes',
+    );
     expect(onAdFailedToLoad).toHaveBeenCalledWith(fakeError);
   });
 
@@ -166,9 +170,9 @@ describe('useAppOpenAd', () => {
     await ReactTestRenderer.act(async () => {
       triggerAdEvent(ad, 'loaded');
     });
-    expect(
-      tree.root.findByProps({ testID: 'isLoaded' }).props.children,
-    ).toBe('true');
+    expect(tree.root.findByProps({ testID: 'isLoaded' }).props.children).toBe(
+      'true',
+    );
 
     // Then close it
     await ReactTestRenderer.act(async () => {
@@ -176,9 +180,9 @@ describe('useAppOpenAd', () => {
     });
 
     expect(onAdClosed).toHaveBeenCalledTimes(1);
-    expect(
-      tree.root.findByProps({ testID: 'isLoaded' }).props.children,
-    ).toBe('false');
+    expect(tree.root.findByProps({ testID: 'isLoaded' }).props.children).toBe(
+      'false',
+    );
   });
 
   it('calls ad.show() when showAd is invoked', async () => {

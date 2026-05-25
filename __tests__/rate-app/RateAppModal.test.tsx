@@ -10,11 +10,7 @@ describe('RateAppModal', () => {
   it('renders without crashing when visible', async () => {
     await ReactTestRenderer.act(async () => {
       ReactTestRenderer.create(
-        <RateAppModal
-          visible
-          onRateNow={jest.fn()}
-          onDismiss={jest.fn()}
-        />,
+        <RateAppModal visible onRateNow={jest.fn()} onDismiss={jest.fn()} />,
       );
     });
   });
@@ -23,11 +19,7 @@ describe('RateAppModal', () => {
     let tree!: ReactTestRenderer.ReactTestRenderer;
     await ReactTestRenderer.act(async () => {
       tree = ReactTestRenderer.create(
-        <RateAppModal
-          visible
-          onRateNow={jest.fn()}
-          onDismiss={jest.fn()}
-        />,
+        <RateAppModal visible onRateNow={jest.fn()} onDismiss={jest.fn()} />,
       );
     });
     expect(tree.root.findByProps({ testID: 'rate-app-rate-now' })).toBeTruthy();
@@ -39,11 +31,7 @@ describe('RateAppModal', () => {
     let tree!: ReactTestRenderer.ReactTestRenderer;
     await ReactTestRenderer.act(async () => {
       tree = ReactTestRenderer.create(
-        <RateAppModal
-          visible
-          onRateNow={onRateNow}
-          onDismiss={jest.fn()}
-        />,
+        <RateAppModal visible onRateNow={onRateNow} onDismiss={jest.fn()} />,
       );
     });
     await ReactTestRenderer.act(async () => {
@@ -57,11 +45,7 @@ describe('RateAppModal', () => {
     let tree!: ReactTestRenderer.ReactTestRenderer;
     await ReactTestRenderer.act(async () => {
       tree = ReactTestRenderer.create(
-        <RateAppModal
-          visible
-          onRateNow={jest.fn()}
-          onDismiss={onDismiss}
-        />,
+        <RateAppModal visible onRateNow={jest.fn()} onDismiss={onDismiss} />,
       );
     });
     await ReactTestRenderer.act(async () => {

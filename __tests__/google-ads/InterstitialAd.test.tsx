@@ -52,7 +52,9 @@ describe('InterstitialAd', () => {
       );
     });
 
-    const { InterstitialAd: SDKInterstitialAd } = require('react-native-google-mobile-ads');
+    const {
+      InterstitialAd: SDKInterstitialAd,
+    } = require('react-native-google-mobile-ads');
     const ad = SDKInterstitialAd.createForAdRequest.mock.results[0].value;
     expect(ad.load).toHaveBeenCalledTimes(1);
   });
@@ -65,8 +67,10 @@ describe('InterstitialAd', () => {
       );
     });
 
-    const { InterstitialAd: SDKInterstitialAd, AdEventType } =
-      require('react-native-google-mobile-ads');
+    const {
+      InterstitialAd: SDKInterstitialAd,
+      AdEventType,
+    } = require('react-native-google-mobile-ads');
     const ad = SDKInterstitialAd.createForAdRequest.mock.results[0].value;
 
     // Simulate the ad being shown then closed.

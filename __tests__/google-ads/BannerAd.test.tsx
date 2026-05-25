@@ -17,7 +17,9 @@ describe('BannerAd', () => {
   it('renders a container View wrapping the SDK BannerAd', async () => {
     let tree!: ReactTestRenderer.ReactTestRenderer;
     await ReactTestRenderer.act(async () => {
-      tree = ReactTestRenderer.create(<BannerAd adUnitId="test-banner-unit-id" />);
+      tree = ReactTestRenderer.create(
+        <BannerAd adUnitId="test-banner-unit-id" />,
+      );
     });
     expect(tree.toJSON()).toMatchSnapshot();
   });
@@ -27,7 +29,9 @@ describe('BannerAd', () => {
       ReactTestRenderer.create(<BannerAd adUnitId="my-unit-id-123" />);
     });
 
-    expect(getLastSDKBannerAdProps()).toMatchObject({ unitId: 'my-unit-id-123' });
+    expect(getLastSDKBannerAdProps()).toMatchObject({
+      unitId: 'my-unit-id-123',
+    });
   });
 
   it('uses BannerAdSize.BANNER as the default size', async () => {
@@ -36,7 +40,9 @@ describe('BannerAd', () => {
       ReactTestRenderer.create(<BannerAd adUnitId="test-id" />);
     });
 
-    expect(getLastSDKBannerAdProps()).toMatchObject({ size: BannerAdSize.BANNER });
+    expect(getLastSDKBannerAdProps()).toMatchObject({
+      size: BannerAdSize.BANNER,
+    });
   });
 
   it('passes a custom size prop to the SDK BannerAd', async () => {
@@ -47,13 +53,17 @@ describe('BannerAd', () => {
       );
     });
 
-    expect(getLastSDKBannerAdProps()).toMatchObject({ size: BannerAdSize.MEDIUM_RECTANGLE });
+    expect(getLastSDKBannerAdProps()).toMatchObject({
+      size: BannerAdSize.MEDIUM_RECTANGLE,
+    });
   });
 
   it('forwards onAdLoaded callback to the SDK BannerAd', async () => {
     const onAdLoaded = jest.fn();
     await ReactTestRenderer.act(async () => {
-      ReactTestRenderer.create(<BannerAd adUnitId="test-id" onAdLoaded={onAdLoaded} />);
+      ReactTestRenderer.create(
+        <BannerAd adUnitId="test-id" onAdLoaded={onAdLoaded} />,
+      );
     });
 
     expect(getLastSDKBannerAdProps()).toMatchObject({ onAdLoaded });
@@ -70,5 +80,3 @@ describe('BannerAd', () => {
     expect(getLastSDKBannerAdProps()).toMatchObject({ onAdFailedToLoad });
   });
 });
-
-

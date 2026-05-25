@@ -44,7 +44,9 @@ describe('useRateApp', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     getItemSpy = jest.spyOn(AsyncStorage, 'getItem').mockResolvedValue(null);
-    setItemSpy = jest.spyOn(AsyncStorage, 'setItem').mockResolvedValue(undefined);
+    setItemSpy = jest
+      .spyOn(AsyncStorage, 'setItem')
+      .mockResolvedValue(undefined);
     openURLSpy = jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
     getInAppReviewMock().isAvailable.mockReturnValue(true);
     getInAppReviewMock().RequestInAppReview.mockResolvedValue(true);
@@ -61,9 +63,9 @@ describe('useRateApp', () => {
     await ReactTestRenderer.act(async () => {
       tree = ReactTestRenderer.create(<HookHarness />);
     });
-    expect(
-      tree.root.findByProps({ testID: 'isVisible' }).props.children,
-    ).toBe('false');
+    expect(tree.root.findByProps({ testID: 'isVisible' }).props.children).toBe(
+      'false',
+    );
   });
 
   it('shows modal when no cooldown record exists', async () => {
@@ -76,9 +78,9 @@ describe('useRateApp', () => {
     await ReactTestRenderer.act(async () => {
       tree.root.findByProps({ testID: 'openPrompt' }).props.onPress();
     });
-    expect(
-      tree.root.findByProps({ testID: 'isVisible' }).props.children,
-    ).toBe('true');
+    expect(tree.root.findByProps({ testID: 'isVisible' }).props.children).toBe(
+      'true',
+    );
   });
 
   it('does not show modal when within 7-day cooldown', async () => {
@@ -92,9 +94,9 @@ describe('useRateApp', () => {
     await ReactTestRenderer.act(async () => {
       tree.root.findByProps({ testID: 'openPrompt' }).props.onPress();
     });
-    expect(
-      tree.root.findByProps({ testID: 'isVisible' }).props.children,
-    ).toBe('false');
+    expect(tree.root.findByProps({ testID: 'isVisible' }).props.children).toBe(
+      'false',
+    );
   });
 
   it('shows modal when cooldown has expired (8 days ago)', async () => {
@@ -108,9 +110,9 @@ describe('useRateApp', () => {
     await ReactTestRenderer.act(async () => {
       tree.root.findByProps({ testID: 'openPrompt' }).props.onPress();
     });
-    expect(
-      tree.root.findByProps({ testID: 'isVisible' }).props.children,
-    ).toBe('true');
+    expect(tree.root.findByProps({ testID: 'isVisible' }).props.children).toBe(
+      'true',
+    );
   });
 
   it('respects a custom cooldownDays value', async () => {
@@ -126,9 +128,9 @@ describe('useRateApp', () => {
     await ReactTestRenderer.act(async () => {
       tree.root.findByProps({ testID: 'openPrompt' }).props.onPress();
     });
-    expect(
-      tree.root.findByProps({ testID: 'isVisible' }).props.children,
-    ).toBe('false');
+    expect(tree.root.findByProps({ testID: 'isVisible' }).props.children).toBe(
+      'false',
+    );
   });
 
   it('shows modal when in-app review is unavailable (always shows custom popup)', async () => {
@@ -141,9 +143,9 @@ describe('useRateApp', () => {
     await ReactTestRenderer.act(async () => {
       tree.root.findByProps({ testID: 'openPrompt' }).props.onPress();
     });
-    expect(
-      tree.root.findByProps({ testID: 'isVisible' }).props.children,
-    ).toBe('true');
+    expect(tree.root.findByProps({ testID: 'isVisible' }).props.children).toBe(
+      'true',
+    );
   });
 
   it('opens Play Store URL when cooldown is active on Android', async () => {
@@ -154,16 +156,23 @@ describe('useRateApp', () => {
     let tree!: ReactTestRenderer.ReactTestRenderer;
     await ReactTestRenderer.act(async () => {
       tree = ReactTestRenderer.create(
-        <HookHarness config={{ playStoreUrl: 'https://play.google.com/store/apps/details?id=com.example' }} />,
+        <HookHarness
+          config={{
+            playStoreUrl:
+              'https://play.google.com/store/apps/details?id=com.example',
+          }}
+        />,
       );
     });
     await ReactTestRenderer.act(async () => {
       tree.root.findByProps({ testID: 'openPrompt' }).props.onPress();
     });
-    expect(openURLSpy).toHaveBeenCalledWith('https://play.google.com/store/apps/details?id=com.example');
-    expect(
-      tree.root.findByProps({ testID: 'isVisible' }).props.children,
-    ).toBe('false');
+    expect(openURLSpy).toHaveBeenCalledWith(
+      'https://play.google.com/store/apps/details?id=com.example',
+    );
+    expect(tree.root.findByProps({ testID: 'isVisible' }).props.children).toBe(
+      'false',
+    );
   });
 
   it('does nothing when cooldown is active and no store URL is configured', async () => {
@@ -178,9 +187,9 @@ describe('useRateApp', () => {
       tree.root.findByProps({ testID: 'openPrompt' }).props.onPress();
     });
     expect(openURLSpy).not.toHaveBeenCalled();
-    expect(
-      tree.root.findByProps({ testID: 'isVisible' }).props.children,
-    ).toBe('false');
+    expect(tree.root.findByProps({ testID: 'isVisible' }).props.children).toBe(
+      'false',
+    );
   });
 
   it('shows modal when AsyncStorage throws (fail-open)', async () => {
@@ -193,9 +202,9 @@ describe('useRateApp', () => {
     await ReactTestRenderer.act(async () => {
       tree.root.findByProps({ testID: 'openPrompt' }).props.onPress();
     });
-    expect(
-      tree.root.findByProps({ testID: 'isVisible' }).props.children,
-    ).toBe('true');
+    expect(tree.root.findByProps({ testID: 'isVisible' }).props.children).toBe(
+      'true',
+    );
   });
 
   it('handleRateNow: hides modal, saves cooldown, and calls requestReview', async () => {
@@ -206,16 +215,16 @@ describe('useRateApp', () => {
     await ReactTestRenderer.act(async () => {
       tree.root.findByProps({ testID: 'openPrompt' }).props.onPress();
     });
-    expect(
-      tree.root.findByProps({ testID: 'isVisible' }).props.children,
-    ).toBe('true');
+    expect(tree.root.findByProps({ testID: 'isVisible' }).props.children).toBe(
+      'true',
+    );
 
     await ReactTestRenderer.act(async () => {
       tree.root.findByProps({ testID: 'rateNow' }).props.onPress();
     });
-    expect(
-      tree.root.findByProps({ testID: 'isVisible' }).props.children,
-    ).toBe('false');
+    expect(tree.root.findByProps({ testID: 'isVisible' }).props.children).toBe(
+      'false',
+    );
     expect(getInAppReviewMock().RequestInAppReview).toHaveBeenCalledTimes(1);
     expect(setItemSpy).toHaveBeenCalledWith(
       '@common-libs/rate-app/last-prompted',
@@ -235,9 +244,9 @@ describe('useRateApp', () => {
     await ReactTestRenderer.act(async () => {
       tree.root.findByProps({ testID: 'dismiss' }).props.onPress();
     });
-    expect(
-      tree.root.findByProps({ testID: 'isVisible' }).props.children,
-    ).toBe('false');
+    expect(tree.root.findByProps({ testID: 'isVisible' }).props.children).toBe(
+      'false',
+    );
     expect(setItemSpy).toHaveBeenCalledWith(
       '@common-libs/rate-app/last-prompted',
       expect.any(String),

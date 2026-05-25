@@ -19,9 +19,14 @@ function getLastAdInstance() {
  * Finds and invokes the callback registered for a given AdEventType string.
  * Must be wrapped in `ReactTestRenderer.act` by the caller.
  */
-function triggerAdEvent(adInstance: ReturnType<typeof getLastAdInstance>, event: string, ...args: unknown[]) {
-  const calls: [string, (...a: unknown[]) => void][] =
-    (adInstance.addAdEventListener as jest.Mock).mock.calls;
+function triggerAdEvent(
+  adInstance: ReturnType<typeof getLastAdInstance>,
+  event: string,
+  ...args: unknown[]
+) {
+  const calls: [string, (...a: unknown[]) => void][] = (
+    adInstance.addAdEventListener as jest.Mock
+  ).mock.calls;
   const match = calls.find(([e]) => e === event);
   match?.[1]?.(...args);
 }
@@ -56,15 +61,23 @@ describe('useInterstitialAd', () => {
       );
     });
 
-    expect(tree.root.findByProps({ testID: 'isLoaded' }).props.children).toBe('false');
-    expect(tree.root.findByProps({ testID: 'isLoading' }).props.children).toBe('false');
-    expect(tree.root.findByProps({ testID: 'hasError' }).props.children).toBe('no');
+    expect(tree.root.findByProps({ testID: 'isLoaded' }).props.children).toBe(
+      'false',
+    );
+    expect(tree.root.findByProps({ testID: 'isLoading' }).props.children).toBe(
+      'false',
+    );
+    expect(tree.root.findByProps({ testID: 'hasError' }).props.children).toBe(
+      'no',
+    );
   });
 
   it('calls ad.load() immediately when loadOnMount is true', async () => {
     await ReactTestRenderer.act(async () => {
       ReactTestRenderer.create(
-        <HookHarness config={{ adUnitId: 'test-unit-id', loadOnMount: true }} />,
+        <HookHarness
+          config={{ adUnitId: 'test-unit-id', loadOnMount: true }}
+        />,
       );
     });
 
@@ -75,7 +88,9 @@ describe('useInterstitialAd', () => {
   it('does not call ad.load() when loadOnMount is false', async () => {
     await ReactTestRenderer.act(async () => {
       ReactTestRenderer.create(
-        <HookHarness config={{ adUnitId: 'test-unit-id', loadOnMount: false }} />,
+        <HookHarness
+          config={{ adUnitId: 'test-unit-id', loadOnMount: false }}
+        />,
       );
     });
 
@@ -96,8 +111,12 @@ describe('useInterstitialAd', () => {
       triggerAdEvent(ad, 'loaded');
     });
 
-    expect(tree.root.findByProps({ testID: 'isLoaded' }).props.children).toBe('true');
-    expect(tree.root.findByProps({ testID: 'isLoading' }).props.children).toBe('false');
+    expect(tree.root.findByProps({ testID: 'isLoaded' }).props.children).toBe(
+      'true',
+    );
+    expect(tree.root.findByProps({ testID: 'isLoading' }).props.children).toBe(
+      'false',
+    );
   });
 
   it('calls onAdLoaded callback when LOADED event fires', async () => {
@@ -131,7 +150,9 @@ describe('useInterstitialAd', () => {
       triggerAdEvent(ad, 'error', testError);
     });
 
-    expect(tree.root.findByProps({ testID: 'hasError' }).props.children).toBe('yes');
+    expect(tree.root.findByProps({ testID: 'hasError' }).props.children).toBe(
+      'yes',
+    );
     expect(onAdFailedToLoad).toHaveBeenCalledWith(testError);
   });
 
