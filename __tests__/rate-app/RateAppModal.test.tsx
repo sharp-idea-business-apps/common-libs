@@ -57,11 +57,7 @@ describe('RateAppModal', () => {
   it('renders without crashing when not visible', async () => {
     await ReactTestRenderer.act(async () => {
       ReactTestRenderer.create(
-        <RateAppModal
-          visible={false}
-          onRateNow={jest.fn()}
-          onDismiss={jest.fn()}
-        />,
+        <RateAppModal visible={false} onRateNow={jest.fn()} onDismiss={jest.fn()} />,
       );
     });
   });

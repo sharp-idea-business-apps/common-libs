@@ -22,9 +22,7 @@ export function RateAppModal({
       <View style={styles.overlay}>
         <View style={styles.card}>
           <Text style={styles.title}>Enjoying the app?</Text>
-          <Text style={styles.body}>
-            Your rating helps us improve. It only takes a second!
-          </Text>
+          <Text style={styles.body}>Your rating helps us improve. It only takes a second!</Text>
           <View style={styles.actions}>
             <TouchableOpacity
               testID="rate-app-dismiss"

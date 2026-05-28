@@ -1,8 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  InterstitialAd as SDKInterstitialAd,
-  AdEventType,
-} from 'react-native-google-mobile-ads';
+import { InterstitialAd as SDKInterstitialAd, AdEventType } from 'react-native-google-mobile-ads';
 import type { InterstitialAdConfig, InterstitialAdState } from './types';
 
 /**
@@ -53,15 +50,12 @@ export function useInterstitialAd({
       onAdLoadedRef.current?.();
     });
 
-    const unsubError = ad.addAdEventListener(
-      AdEventType.ERROR,
-      (err: Error) => {
-        setIsLoaded(false);
-        setIsLoading(false);
-        setError(err);
-        onAdFailedToLoadRef.current?.(err);
-      },
-    );
+    const unsubError = ad.addAdEventListener(AdEventType.ERROR, (err: Error) => {
+      setIsLoaded(false);
+      setIsLoading(false);
+      setError(err);
+      onAdFailedToLoadRef.current?.(err);
+    });
 
     const unsubClosed = ad.addAdEventListener(AdEventType.CLOSED, () => {
       setIsLoaded(false);

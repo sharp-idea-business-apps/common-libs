@@ -1,9 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import {
-  BannerAd as SDKBannerAd,
-  BannerAdSize,
-} from 'react-native-google-mobile-ads';
+import { BannerAd as SDKBannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
 import type { BannerAdProps } from './types';
 
 /**

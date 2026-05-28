@@ -13,7 +13,4 @@ export type {
 } from './types';
 
 // Re-export SDK constants so consumers never import from the SDK directly.
-export {
-  BannerAdSize,
-  TestIds as AD_TEST_IDS,
-} from 'react-native-google-mobile-ads';
+export { BannerAdSize, TestIds as AD_TEST_IDS } from 'react-native-google-mobile-ads';

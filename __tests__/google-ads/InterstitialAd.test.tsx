@@ -25,9 +25,7 @@ describe('InterstitialAd', () => {
   it('renders nothing when no children are provided', () => {
     let tree!: ReactTestRenderer.ReactTestRenderer;
     ReactTestRenderer.act(() => {
-      tree = ReactTestRenderer.create(
-        <InterstitialAd adUnitId="test-unit-id" />,
-      );
+      tree = ReactTestRenderer.create(<InterstitialAd adUnitId="test-unit-id" />);
     });
 
     expect(tree.toJSON()).toBeNull();
@@ -36,9 +34,7 @@ describe('InterstitialAd', () => {
   it('exposes showAd via ref', () => {
     const ref = createRef<InterstitialAdRef>();
     ReactTestRenderer.act(() => {
-      ReactTestRenderer.create(
-        <InterstitialAd ref={ref} adUnitId="test-unit-id" />,
-      );
+      ReactTestRenderer.create(<InterstitialAd ref={ref} adUnitId="test-unit-id" />);
     });
 
     expect(ref.current).not.toBeNull();
@@ -47,14 +43,10 @@ describe('InterstitialAd', () => {
 
   it('calls ad.load() when loadOnMount is true', async () => {
     await ReactTestRenderer.act(async () => {
-      ReactTestRenderer.create(
-        <InterstitialAd adUnitId="test-unit-id" loadOnMount />,
-      );
+      ReactTestRenderer.create(<InterstitialAd adUnitId="test-unit-id" loadOnMount />);
     });
 
-    const {
-      InterstitialAd: SDKInterstitialAd,
-    } = require('react-native-google-mobile-ads');
+    const { InterstitialAd: SDKInterstitialAd } = require('react-native-google-mobile-ads');
     const ad = SDKInterstitialAd.createForAdRequest.mock.results[0].value;
     expect(ad.load).toHaveBeenCalledTimes(1);
   });
@@ -62,9 +54,7 @@ describe('InterstitialAd', () => {
   it('calls onAdClosed callback when ad is dismissed', async () => {
     const onAdClosed = jest.fn();
     await ReactTestRenderer.act(async () => {
-      ReactTestRenderer.create(
-        <InterstitialAd adUnitId="test-unit-id" onAdClosed={onAdClosed} />,
-      );
+      ReactTestRenderer.create(<InterstitialAd adUnitId="test-unit-id" onAdClosed={onAdClosed} />);
     });
 
     const {

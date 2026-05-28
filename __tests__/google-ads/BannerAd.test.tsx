@@ -17,9 +17,7 @@ describe('BannerAd', () => {
   it('renders a container View wrapping the SDK BannerAd', async () => {
     let tree!: ReactTestRenderer.ReactTestRenderer;
     await ReactTestRenderer.act(async () => {
-      tree = ReactTestRenderer.create(
-        <BannerAd adUnitId="test-banner-unit-id" />,
-      );
+      tree = ReactTestRenderer.create(<BannerAd adUnitId="test-banner-unit-id" />);
     });
     expect(tree.toJSON()).toMatchSnapshot();
   });
@@ -61,9 +59,7 @@ describe('BannerAd', () => {
   it('forwards onAdLoaded callback to the SDK BannerAd', async () => {
     const onAdLoaded = jest.fn();
     await ReactTestRenderer.act(async () => {
-      ReactTestRenderer.create(
-        <BannerAd adUnitId="test-id" onAdLoaded={onAdLoaded} />,
-      );
+      ReactTestRenderer.create(<BannerAd adUnitId="test-id" onAdLoaded={onAdLoaded} />);
     });
 
     expect(getLastSDKBannerAdProps()).toMatchObject({ onAdLoaded });
@@ -72,9 +68,7 @@ describe('BannerAd', () => {
   it('forwards onAdFailedToLoad callback to the SDK BannerAd', async () => {
     const onAdFailedToLoad = jest.fn();
     await ReactTestRenderer.act(async () => {
-      ReactTestRenderer.create(
-        <BannerAd adUnitId="test-id" onAdFailedToLoad={onAdFailedToLoad} />,
-      );
+      ReactTestRenderer.create(<BannerAd adUnitId="test-id" onAdFailedToLoad={onAdFailedToLoad} />);
     });
 
     expect(getLastSDKBannerAdProps()).toMatchObject({ onAdFailedToLoad });
